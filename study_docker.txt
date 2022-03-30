@@ -1,0 +1,39 @@
+// Docker
+
+Trước khi Docker ra đời thì đã có Virtual Machine (VM).
+
+các khái niệm quan trọng nhất của Docker: 
+ + Dockerfile với Image với Container
+
+-> Dockerfile : Chỉ có chữ không thôi. Nó sẽ hướng dẫn  built ra image run ra container.
+
+
+1. giới thiệu về container trong Docker
+
+
+{*} docker ps : check xem trên máy có container nào đang chạy và trên port bao nhiêu
+
+
+(1): Docker Engine: Là thành phần chính của Docker, như một công cụ đóng gói ứng dụng
+(2): Docker Hub: là một `github for docker images`. Trên DockerHub có hàng ngàn public images được tạo bởi
+cộng đồng cho phép bạn dễ dàng tìm thấy image mà bạn cần. Và chỉ cần pull về và sử dụng với một số config mà bạn mong muốn.
+(3): Images : Là một khuôn mẫu để tại một container. Thường thì image sẽ dựa trên 1 image có sẵn với những tùy chỉnh thêm. Ví dụ built 1 image
+dựa trên image Centos mẫu có sẳn chạy Nginx và những tùy chỉnh, cấu hình để dứng dụng web của nó thể chạy được. Bạn có thể tự built một images 
+riêng cho mình hoặc sử dụng những image được chia sẽ từ cộng đồng dockerhub. Một image sẽ tự built dựa trên những chỉ dẫn của Dockerfile
+(4): Container: Là một instance của một images. Bạn có create, start,stop, move or delete container dựa trên Docker API or Docker CLI
+(5): Docker Client: Là một công cụ giúp người giao tiếp với docker host.
+(6): Docker Daemon: lắng nghe các yêu cầu Docker Client để quản lý đối tượng như container, Image, Network và Volumes thông qua Rest API
+Các Docker Daemon cũng giao tiếp với nhau để quản lý các docker Service
+(7) Dockerfile: là một tập tin bao gồm chỉ dẫn để built một image
+(8) Volumes : là phần dữ liệu được tạo ra khi container được khởi tạo.
+
+(*) Một số khái niệm liên quan đến docker là gì?
+
+* Docker Swarm: Khái niệm này chính là một service cho phép người dùng tạo và quản lý tập chung cho Docker nodejs. Điều này cũng giống như lịch trình của các containers. Mỗi node của Docker Swarm sẽ là một Docker Daemon. Và tất cả những Docker Daemon này sẽ sử dụng Docker API. Từ đó các Services đều có thể truy cập cũng như vào các nodes như nhau. Việc quản lý bằng docker cơ bản thì các container sẽ được quản lý riêng biệt. Tuy nhiên, nếu quản lý bằng docker Swarm thì các containers sẽ được quản lý chung.
+
+* Docker Compose: Docker Compose được dùng để định nghĩa và thực hiện quá trình run multi-container cho Docker Application. Với nền tảng này các bạn có thể sử dụng file YAML để config với các services dành cho Application. Sau đó người dùng có thể dùng command để create và run những Config đó. Để có thể sử dụng, người dùng cần làm ba bước như sau:
+
+Tiến hành khai báo app’s environment trong Dockerfile.
+Khai báo các services cần thiết để chạy application ở trong file docker-compose.yml.
+Và run docker-compose up để start và run app.
+Docker Hub là gì?

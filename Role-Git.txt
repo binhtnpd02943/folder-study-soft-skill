@@ -1,0 +1,54 @@
+CÁCH SỬ DỤNG GIT:
+
+git clone <url> => lấy code về
+
+git branch => xem branch hiện tại
+
+git fetch => hiển thị toàn bộ branch hiện có
+
+git checkout -b <branch_name> => tạo branch mới từ branch hiện tại
+
+git checkout  <branch_name> => chuyen sang nhanh <branch_name>
+
+git pull origin <branch_name> => lấy code mới nhất từ <branch_name>
+
+git commit -a -m "note" => add vào git những file muốn đưa lên git.
+
+git push origin <branch_name> => push nhưng file vừa commit lên git lên 
+
+(nêu push lên mà bị trùng code hoặc trúng những file ng khác đang code thì sẽ nhận dc thông báo lỗi conflict) => lúc này báo conflict với branch nào thi goi ng đó tới xem đoạn code nào k dung va đang dùng để giữ lại.
+
+git add -A => add vào git nhưng toàn bộ file mới tạo, nếu chỉ muốn add vào 1 file thì dung lệnh sau
+
+git add <folder>/* => add folder
+
+git add <file> => add file
+
+git merge <branch_name> => để merge code lại với nhau. vdu đang ở branch A, 
+
+muốn hợp nhất với code branch B thi checkout code branch B về, sau đó chuyên về lại Branch A và git merge <branch_name_B>
+
+git branch -D <branch_name> => xóa branch
+
+
+NOTE:  nghiêm cấm k dc chuyển qua nhánh master và thao tác trong đó, chỉ làm trong nhánh của mình tạo ra, va k dc tự ý merge, chỉ master review code ok xong mới merge.
+
+Tên branch tạo ra thi phai có quy tắc.
+
+Vdu làm cái hiện thị toàn bộ dánh sách users
+
+Thì tạo branch: git checkout -b Bao_listUsers 
+
+Cac buoc lay folder git va dua code len git:
+
+Git clone du an ve
+
+Git add -A : neu co tao file moi.
+
+Git commit -a -m “ghi chu” : commit file mới tạo vao git.
+
+git push origin branch(nhánh dang lam): đưa file mới lên git
+
+git commit -a -m “ghi chu”
+
+ 
