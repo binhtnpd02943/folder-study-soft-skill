@@ -1,0 +1,69 @@
+#1: Tạo Docker image, chúng ta cần tạo một file gọi là Dockerfile ngay tại thư mục root project
+# Example
+
+FROM node:16.13.0-alpine3.13
+
+#Create app directory
+WORKDIR /usr/src/app
+
+#Install app dependencies
+COPY package*.json ./
+RUN npm install
+
+#Copy app source code
+COPY . .
+
+#Expose port and start application \
+EXPOSE 3000
+CMD ["npm", "start"]
+
+# Sau khi đã có Dockerfile, các bạn có thể build image bằng lệnh sau
+<*> $ docker build -t awesome-app .
+# Như vậy, các bạn đã có một Docker image cho source code hiện tại, và các bạn cũng có thể chạy thử image bằng lệnh.
+<*> $ docker run awesome-app
+# Hoặc có thể run image set các flags như sau
+<*> $ docker run -dp 3000:3000 awesome-app
+# Note: Nhớ các cờ -d và -p? Chúng tôi đang chạy vùng chứa mới ở chế độ "tách rời" (trong nền) và tạo ánh xạ giữa cổng 3000 của máy chủ đến cổng 3000 của vùng chứa. 
+# Nếu không có ánh xạ cổng, chúng tôi sẽ không thể truy cập ứng dụng.
+
+#2: Viết file docker-compose.yml 
+# Các bạn tạo file docker-compose.yml, file này sẽ chứa thông tin của môi trường Docker.
+# Sau khi các bạn đã có file docker-compose.yml, các bạn có thể chạy nó lên bằng lệnh sau.
+<*> $ docker-compose up
+##Note: Nếu như xảy ra trường hợp mỗi lần xóa và re-build lại thì dữ liệu trước đó sẽ mất hết, bởi vì dữ liệu được lưu trữ trong container. để giải quyết vấn đề này.
+## Chúng ta sẽ sử dụng một kỹ thuật gọi là Volume, để làm cho storage của container sẽ trỏ về một thư mục trên máy tính thật.
+## Như các bạn có thể thấy, chúng ta thêm volumes vào và map nó với thư mục /data/db trong mongo container. Vậy thực sự thư mục dữ liệu này nằm ở đâu?
+
+## Các bạn chạy lệnh sau.
+
+$ docker inspect -f ‘{{ .Mounts }}’ ${container_id}
+[{volume nodejs-mongodb-docker-example_mongo_data /var/lib/docker/volumes/nodejs-mongodb-docker-example_mongo_data/_data /data/db local rw true }]
+
+
+#3: Khi Update the application
+# thực thiện build hoặc update version image, các bạn chạy lệnh sau.
+=> docker build -t awesome-app .
+# Let’s start a new container using the updated code.
+=> docker run -dp 3000:3000 awesome-app
+# Nếu trong trường hợp xảy ra error trùng port : messagse => Bind for 0.0.0.0.3000 faild: port is already allocated.
+
+#Steps 1: Get the ID of the container by using the `docker ps` command.
+#Steps 2: Use the `docker stop <the-container-id>` command to stop the container.
+#Steps 3: Once the container has stopped, you can remove it by using the `docker rm <the-container-id>` command.
+#Note: You can stop and remove a container in a single command by adding the "force" flag to the `docker rm` command. For example: `docker rm -f <the-container-id>.
+#Steps 4: Start the update app container.
+
+#4 Share the application.
+#Steps 1: to push an image, we first need to create a repository on Docker Hub.
+#Steps 2: Push the image. 
+# `$ docker push docker/getting-started
+# The push refers to repository [docker.io/docker/getting-started]
+# An image dose not exist locally with the tag: docker/getting-started.
+❎ why did it fail? The push command was looking for an image named docker/getting-started, but didn't find one. if you run docker image ls, you won't see one either.
+✅ To fix this, we need to `tag` our existing image we've built to give it another name.
+# `$ docker tag getting-started YOUR-USER-NAME/getting-started`
+# Now try push command again: `$ docker push YOUR-USER-NAME/getting-started`
+#Steps 3: Run the image on a new instance.
+`$ docker run -dp 3000:3000 YOUR-USER-NAME/getting-started`
+
+
